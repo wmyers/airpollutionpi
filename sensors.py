@@ -100,6 +100,7 @@ class SDS011(object):
         @param sleep: Whether the device should sleep or work.
         @type sleep: bool
         """
+        print("read is %s sleep is %s" %(read, sleep))
         cmd = self.cmd_begin()
         cmd += (self.SLEEP_CMD
                 + (self.READ if read else self.WRITE)

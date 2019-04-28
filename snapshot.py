@@ -189,9 +189,19 @@ if 'bme280' in input_sensors:
 if 'sds011' in input_sensors:
     try:
         from sensors import SDS011
-        logger.info('Collect data from SDS011')
+        logger.info('SDS011, wake up sensor')
         sds011 = SDS011("/dev/ttyUSB0", use_query_mode=True)
+        # wake up the sensor
+        sds011.sleep(True, False)
+        # wait 12 seconds for it to come to life
+        time.sleep(12)
+        # get the data
         pm25, pm10 = sds011.query()
+        # wait another two seconds
+        time.sleep(2)
+        # send the sensor back to sleep
+        sds011.sleep(True, True)
+        logger.info('SDS011, put sensor to sleep')
 
         if pm25 is not None:
             pm25 = round(pm25, 2)
